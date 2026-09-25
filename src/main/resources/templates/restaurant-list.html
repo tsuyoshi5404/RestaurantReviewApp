@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+<meta charset="UTF-8">
+<title>レストラン一覧</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h2 class="serch-title">レストラン検索</h2>
+<div class="serch-area">
+	<form th:action="@{/restaurant-search}" method="POST" th:object="${restaurantSearchForm}">
+		<label>【店舗名】（部分一致）</label>
+		<br>
+	   	<input type="text" th:field="*{restaurantName}"><br>
+		<br>
+	   	<input type="submit" value="検索" class="btn">
+	</form>
+</div>
+
+<div th:if="${restaurantList} != null">
+	<h2 class="list-title">レストラン一覧</h2>
+
+	<table class="restaurant-list">
+		<tr>
+			<th colspan="2">レビュー</th><th>店舗ID</th><th>店舗名</th><th>キャッチフレーズ</th><th>平均評価</th>
+		</tr>
+
+		<tr th:each="restaurant : ${restaurantList}">
+			<td>
+				<form th:action="@{/search-review}" method="POST">
+					<input type="hidden" name="restaurantId" th:value="${restaurant.restaurantId}">
+					<input type="hidden" name="restaurantName" th:value="${restaurant.restaurantName}">
+					<input type="submit" value="一覧" class="tbtn">
+				</form>			
+			</td>	
+					
+			<td>
+				<form th:action="@{/show-review-form}" method="POST">
+					<input type="hidden" name="restaurantId" th:value="${restaurant.restaurantId}">
+					<input type="hidden" name="restaurantName" th:value="${restaurant.restaurantName}">
+					<input type="submit" value="登録" class="tbtn">
+				</form>			
+			</td>
+			<td th:text="${restaurant.restaurantId}"></td>
+			<td th:text="${restaurant.restaurantName}"></td>
+			<td th:text="${restaurant.catchPhrase}"></td>
+			<td th:text="${restaurant.formatAverageRating()}"></td>
+		</tr>
+
+	</table>
+
+</div>
+
+</body>
+</html>

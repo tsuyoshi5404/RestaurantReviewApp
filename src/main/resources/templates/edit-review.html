@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>レビュー編集</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+	<h2>レビュー編集</h2>
+	
+	<div class="form-card">
+
+	    <form th:action="@{/edit-review}" method="POST" 
+	    		th:object="${reviewEditForm}">
+			
+			<!--ID-->
+			<div class="form-group"	>
+				<label>【ID】</label>
+				<p th:text="*{reviewId}"></p>
+				<input type="hidden" th:field="*{reviewId}">
+			</div>
+			<div th:if="${#fields.hasErrors('reviewId')}" th:errors="*{reviewId}" class="errors-msg"></div>
+			
+			<!--店舗ID-->	
+			<div class="form-group">
+				<label>【店舗ID】</label>
+				<p th:text="*{restaurantId} + ' ' + *{restaurantName}"></p>	
+				<input type="hidden" th:field="*{restaurantId}">
+				<input type="hidden" th:field="*{restaurantName}">
+			</div>
+			<div th:if="${#fields.hasErrors('restaurantId')}" th:errors="{restaurantId}" class="error-msg"></div>
+			
+			<!--利用者ID-->
+			<div class="form-group">
+		    	<label>【利用者ID】</label>
+		    	<input type="text" th:field="*{userId}">
+			</div>
+			
+			<!--来店日-->
+			<div class="form-group">
+		    	<label>【来店日】</label>【来店日】
+		    	<input type="date" th:field="*{visitDate}">
+			</div>
+			
+			<!--評価-->
+			<div class="form-group">
+		    	<label>【評価】(1-5)</label>
+				<select th:field="*{rating}">
+					<option value="0">選択してください。</option>
+					<!-- 固定のオプション1-5 -->
+					<option th:each="option : ${#numbers.sequence(1,5)}" 
+						th:value="${option}"
+						th:text="${option}"
+						th:selected="${option == rating}" >
+					</option>
+				</select>
+			</div>
+			<div th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}" class="error-msg"></div>
+			
+			<!--一言コメント-->	
+			<div class="form-group">
+		    	<label>【一言コメント】</label>
+		    	<input type="text" th:field="*{comment}" class="comment" >
+			</div>
+			
+			<!--更新ボタン-->
+			<div class="form-button">
+	    		<input type="submit" value="更新" class="btn">
+			</div>
+	    </form>
+	</div>
+	
+	<!--トップページに戻る-->
+	<div class="back-button">
+		<a th:href="@{/top}" class="btn">トップページに戻る</a>
+	</div>
+
+</body>
+</html>

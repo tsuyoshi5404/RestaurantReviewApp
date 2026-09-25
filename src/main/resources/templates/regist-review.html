@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>レビュー登録</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+	<h2>レビュー登録</h2>
+
+    <form th:action="@{/regist-review}" method="POST" 
+    		th:object="${reviewRegistForm}"
+			class="review-form">
+			
+			
+		【店舗ID】<br>
+		<p th:text="*{restaurantId} + ' ' + *{restaurantName}"></p>	
+		<input type="hidden" th:field="*{restaurantId}">
+		<input type="hidden" th:field="*{restaurantName}">
+		<div th:if="${#fields.hasErrors('restaurantId')}" th:errors="{restaurantId}" class="error-msg"></div>
+		<br>
+		
+    	<label>【利用者ID】</label>
+    	<input type="text" th:field="*{userId}">
+		<br>
+		
+    	<label>【来店日】</label>
+    	<input type="date" th:field="*{visitDate}">
+		
+		<div th:if="${#fields.hasErrors('visitDate')}"
+			 th:errors="*{visitDate}"
+			 class="error-msg">
+		 
+		 </div>
+		<br>
+		
+    	<label>【評価】(1-5)</label>
+		<select th:field="*{rating}">
+			<option value="0">選択してください。</option>
+			<!-- 固定のオプション1-5 -->
+			<option th:each="option : ${#numbers.sequence(1,5)}" 
+				th:value="${option}"
+				th:text="${option}"
+				th:selected="${option == rating}" >
+			</option>
+		</select><br>
+		<div th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}" class="error-msg"></div>
+		<br>	
+			
+    	<label>【一言コメント】</label>
+    	<input type="text" th:field="*{comment}" class="comment" ><br>
+		<br>
+    	<input type="submit" value="登録" class="btn">
+    </form>
+	
+	<br>
+	<a th:href="@{/top}" class="back-link">トップページに戻る</a>
+
+</body>
+</html>

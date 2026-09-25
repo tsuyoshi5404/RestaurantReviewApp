@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>レビュー編集確認</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+		
+	<h2>レビュー編集確認</h2>
+
+	<table class="confirm-table" th:object="${reviewEditForm}">
+		<tr>
+			<td class="guide">【ID】</td>
+			<td th:text="*{reviewId}"></td>
+		</tr>
+		
+		<tr>
+			<td class="guide">【店舗】</td>
+			<td th:text="*{restaurantId} + '　' + *{restaurantName}"></td>
+		</tr>
+		<tr>
+			<td class="guide">【利用者ID】</td>
+			<td th:text="*{userId}"></td>
+		</tr>
+		<tr>
+			<td class="guide">【来店日】</td>
+			<td th:text="*{visitDate}"></td>
+		</tr>
+		<tr>
+			<td class="guide">【評価】(1-5)</td>
+			<td th:text="*{rating}"></td>
+		</tr>
+		<tr>
+			<td class="guide">【一言コメント】</td>
+			<td th:text="*{comment}"></td>
+		</tr>
+	</table>
+	<br>
+	
+	<div class="confirm-buttons">
+	    <form th:action="@{/confirm-edit-review}" method="POST"
+				th:object="${reviewEditForm}">
+			<input type="hidden" th:field="*{reviewId}">
+	    	<input type="hidden" th:field="*{restaurantId}">
+	    	<input type="hidden" th:field="*{userId}">
+	    	<input type="hidden" th:field="*{visitDate}">
+	    	<input type="hidden" th:field="*{rating}">
+	    	<input type="hidden" th:field="*{comment}">
+	    	<input type="submit" value="更新実行" class="btn">
+	   	</form>
+	
+	    <form th:action="@{/show-edit-form}" method="POST"
+				th:object="${reviewEditForm}">
+			<input type="hidden" th:field="*{reviewId}">		
+	    	<input type="hidden" th:field="*{restaurantId}">
+	    	<input type="hidden" th:field="*{restaurantName}">
+	    	<input type="hidden" th:field="*{userId}">
+	    	<input type="hidden" th:field="*{visitDate}">
+	    	<input type="hidden" th:field="*{rating}">
+	    	<input type="hidden" th:field="*{comment}" class="btn">
+	    	<input type="submit" value="もどる" class="btn">
+	   	</form>
+	</div>
+
+</body>
+</html>

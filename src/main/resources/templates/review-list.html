@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>レビュー一覧</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h2 class="review-title">レビュー一覧</h2>
+
+<div class="restaurant-info" th:object="${reviewSearchForm}">
+	<span class="restaurant-label">店舗</span>
+	<span class="restaurant-id" th:text="*{restaurantId}"></span>
+	<span class="restaurant-name" th:text="*{restaurantName}"></span>	
+</div>
+
+<br>
+<div th:if="${reviewList} == null">
+（レビューが存在しません）
+</div>
+<div th:if="${reviewList} != null">
+	<table class="review-list">
+		<tr>
+			<th colspan="2">レビュー</th><th>ID</th><th>ユーザ</th><th>来店日</th><th>評価</th><th>一言コメント</th>
+		</tr>
+
+		<tr th:each="review : ${reviewList}">
+			<td>
+				<form th:action="@{/show-edit-form}" method="POST">
+					<input type="hidden" name = "reviewId"       th:value="${review.reviewId}">
+					<input type="hidden" name = "restaurantId"   th:value="${reviewSearchForm.restaurantId}">
+					<input type="hidden" name = "restaurantName" th:value="${reviewSearchForm.restaurantName}">
+					<input type="hidden" name = "userId"         th:value="${review.userId}">
+					<input type="hidden" name = "visitDate"      th:value="${review.visitDate}">
+					<input type="hidden" name = "rating"         th:value="${review.rating}">
+					<input type="hidden" name = "comment"        th:value="${review.comment}">
+					<input type="submit" value="編集" class="tbtn">
+				</form>
+			</td>
+			
+			<td>
+				<form th:action="@{/remove-review}" method="POST">
+					<input type="hidden" name = "reviewId"       th:value="${review.reviewId}">
+					<input type="hidden" name = "restaurantId"   th:value="${reviewSearchForm.restaurantId}">
+					<input type="hidden" name = "restaurantName" th:value="${reviewSearchForm.restaurantName}">
+					<input type="hidden" name = "userId"         th:value="${review.userId}">
+					<input type="hidden" name = "visitDate"      th:value="${review.visitDate}">
+					<input type="hidden" name = "rating"         th:value="${review.rating}">
+					<input type="hidden" name = "comment"        th:value="${review.comment}">
+					<input type="submit" value="削除" class="tbtn">
+				</form>
+			</td>
+			
+						
+			<td th:text="${review.reviewId}"></td>
+			<td th:text="${review.userId}"></td>
+			<td th:text="${review.visitDate}"></td>
+			<td th:text="${review.rating}"></td>
+			<td th:text="${review.comment}"></td>
+		</tr>
+
+	</table>
+</div>
+
+<br>
+<a th:href="@{/top}" class="back-link">トップページに戻る</a>
+
+</body>
+</html>
